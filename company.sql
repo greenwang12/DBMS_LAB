@@ -140,7 +140,7 @@ END;//
 DELIMITER ;
 
 insert into Department (d_no, dname, mgr_ssn) values
-(006,"R&D","01NB354"); -- This will automatically set mgr_start_date to today's date
+(006,"R&D","01MS273"); -- This will automatically set mgr_start_date to today's date
 
 -- Create a trigger that prevents a project from being deleted if it is currently being worked by any employee.
 
