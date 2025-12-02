@@ -65,11 +65,11 @@ INSERT INTO DLocation VALUES
 (005, "MSIDC, Hyderabad");
 
 INSERT INTO Project VALUES
-(278910, "System Testing", "Mumbai, Maharashtra", 004),
-(534892, "IOT", "JP Nagar, Bengaluru", 001),
-(453976, "Product Optimization", "Hyderabad, Telangana", 005),
-(278346, "Yield Increase", "Gurugram, Delhi-NCR", 005),
-(426791, "Product Refinement", "Whitefield, Bengaluru", 002);
+(278910, "System Performance Evaluation", "Mumbai, Maharashtra", 004),
+(534892, "Next-Gen IoT Platform", "JP Nagar, Bengaluru", 001),
+(453976, "Product Quality Enhancement", "Hyderabad, Telangana", 005),
+(278346, "Operational Efficiency Optimization", "Gurugram, Delhi-NCR", 005),
+(426791, "Global Market Expansion Strategy", "Whitefield, Bengaluru", 002);
 
 INSERT INTO WorksOn VALUES
 ("01MS101", 278346, 5),
@@ -156,4 +156,4 @@ END; //
 
 DELIMITER ;
 
-delete from Project where p_no=241563; -- Will give error
+delete from Project where p_no=341256; -- Will give error
