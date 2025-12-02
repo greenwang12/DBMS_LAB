@@ -42,44 +42,49 @@ create table if not exists WorksOn(
         foreign key (ssn) references Employee(ssn) on delete cascade,
         foreign key (p_no) references Project(p_no) on delete cascade
 );
-INSERT INTO Employee VALUES
-("01MS235", "Reen lee","Altamount Road,Mumbai", "Female", 1500000, "01MS235", 5),
-("01MS354", "Employee_2", "Delhi-NCR", "Female", 1200000,"01MS235", 2),
-("02MS254", "Employee_3", "Pune, Maharashtra", "Male", 1000000,"01MS235", 4),
-("03MS653", "Employee_4", "Hyderabad, Telangana", "Male", 2500000, "01MS354", 5),
-("04MS234", "Employee_5", "JP Nagar, Bengaluru", "Female", 1700000, "01MS354", 1);
 
+INSERT INTO Employee VALUES
+("01MS101", "Reen lee", "Altamount Road, Mumbai", "Female", 3700000, "01MS101", 5),
+("01MS102", "Employee_2", "Delhi-NCR", "Female", 1700000, "01MS101", 2),
+("02MS205", "Employee_3", "Pune, Maharashtra", "Male", 2000000, "01MS101", 4),
+("02MS312", "Employee_4", "Hyderabad, Telangana", "Male", 2500000, "01MS102", 5),
+("03MS401", "Employee_5", "JP Nagar, Bengaluru", "Female", 1900000, "01MS102", 1);
 
 INSERT INTO Department VALUES
-(001,"Human Resources", "01MS235", "2025-10-21"),
-(002,"Quality Assesment", "03MS653", "2025-10-19"),
-(003,"System Assesment","04MS234","2025-10-27"),
-(005,"Productions","02MS254","2025-08-16"),
-(004,"Finance","01MS354","2025-09-4");
+(001, "People & Culture", "01MS101", "2025-11-15"),
+(002, "Product Quality", "01MS102", "2025-12-01"),
+(003, "Cloud Infrastructure", "02MS205", "2025-10-30"),
+(005, "Engineering & Development", "02MS312", "2025-09-22"),
+(004, "Corporate Finance", "03MS401", "2025-10-12");
 
 INSERT INTO DLocation VALUES
-(001, "Manyata Tech Park,Bengaluru"),
-(002, "DLF Cyber Hub,Gurugram"),
-(003, "Olympia Tech Park,Chennai"),
-(004, "One BKC,Mumbai"),
-(005, "MSIDC,Hyderabad");
+(001, "Manyata Tech Park, Bengaluru"),
+(002, "DLF Cyber Hub, Gurugram"),
+(003, "Olympia Tech Park, Chennai"),
+(004, "One BKC, Mumbai"),
+(005, "MSIDC, Hyderabad");
 
 INSERT INTO Project VALUES
-(241563, "System Testing", "Mumbai, Maharashtra", 004),
-(532678, "IOT", "JP Nagar, Bengaluru", 001),
-(453723, "Product Optimization", "Hyderabad, Telangana", 005),
-(278345, "Yeild Increase", "Gurugram,Delhi-NCR", 005),
-(426784, "Product Refinement", "Whitefield,Bengaluru", 002);
+(278910, "System Testing", "Mumbai, Maharashtra", 004),
+(534892, "IOT", "JP Nagar, Bengaluru", 001),
+(453976, "Product Optimization", "Hyderabad, Telangana", 005),
+(278346, "Yield Increase", "Gurugram, Delhi-NCR", 005),
+(426791, "Product Refinement", "Whitefield, Bengaluru", 002);
 
 INSERT INTO WorksOn VALUES
-("01MS235", 278345, 5),
-("01MS354", 426784, 6),
-("04MS234", 532678, 3),
-("02MS254", 241563, 3),
-("03MS653", 453723, 6);
+("01MS101", 278346, 5),
+("01MS102", 426791, 6),
+("02MS205", 534892, 3),
+("02MS312", 278910, 3),
+("03MS401", 453976, 6);
 
-alter table Employee add constraint foreign key (d_no) references Department(d_no) on delete cascade;
+-- Alter table to add Foreign Key constraint
+ALTER TABLE Employee 
+ADD CONSTRAINT foreign_key_dno FOREIGN KEY (d_no) 
+REFERENCES Department(d_no) 
+ON DELETE CASCADE;
 
+-- Select Queries to verify the updated data
 SELECT * FROM Department;
 SELECT * FROM Employee;
 SELECT * FROM DLocation;
