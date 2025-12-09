@@ -40,7 +40,7 @@ create table BookAdoption(
         foreign key(course) references Course(course) on delete cascade
 );
 
-NSERT INTO Student VALUES
+INSERT INTO Student VALUES
 ("01BMS235", "Student_1", "CSE", "2001-05-15"),
 ("01BMS354", "Student_2", "Literature", "2002-06-10"),
 ("01BMS254", "Student_3", "Philosophy", "2000-04-04"),
