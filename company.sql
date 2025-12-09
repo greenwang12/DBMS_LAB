@@ -2,10 +2,6 @@ DROP DATABASE IF EXISTS company;
 CREATE DATABASE company;
 USE company;
 
--- ===========================
--- TABLE CREATION
--- ===========================
-
 CREATE TABLE IF NOT EXISTS Employee(
         ssn VARCHAR(35) PRIMARY KEY,
         name VARCHAR(35) NOT NULL,
@@ -33,7 +29,7 @@ CREATE TABLE IF NOT EXISTS DLocation(
 
 CREATE TABLE IF NOT EXISTS Project(
         p_no INT PRIMARY KEY,
-        p_name VARCHAR(25) NOT NULL,
+        p_name VARCHAR(100) NOT NULL,
         p_loc VARCHAR(25) NOT NULL,
         d_no INT NOT NULL,
         FOREIGN KEY (d_no) REFERENCES Department(d_no) ON DELETE CASCADE
@@ -47,13 +43,9 @@ CREATE TABLE IF NOT EXISTS WorksOn(
         FOREIGN KEY (p_no) REFERENCES Project(p_no) ON DELETE CASCADE
 );
 
--- ===========================
--- INSERT DATA
--- ===========================
-
 INSERT INTO Employee VALUES
 ("01MS101", "Reen lee", "Altamount Road, Mumbai", "Female", 3700000, "01MS101", 5),
-("01MS102", "Employee_2", "Delhi-NCR", "Female", 1700000, "01MS101", 2),
+("01MS102", "Shelly Scott", "Delhi-NCR", "Female", 1700000, "01MS101", 2),
 ("02MS205", "Employee_3", "Pune, Maharashtra", "Male", 2000000, "01MS101", 4),
 ("02MS312", "Employee_4", "Hyderabad, Telangana", "Male", 2500000, "01MS102", 5),
 ("03MS401", "Employee_5", "JP Nagar, Bengaluru", "Female", 1900000, "01MS102", 1);
@@ -86,18 +78,12 @@ INSERT INTO WorksOn VALUES
 ("02MS312", 278910, 3),
 ("03MS401", 453976, 6);
 
--- ===========================
 -- ADD FK FOR D_NO
--- ===========================
 
-ALTER TABLE Employee 
-ADD CONSTRAINT foreign_key_dno FOREIGN KEY (d_no) 
-REFERENCES Department(d_no) 
+ALTER TABLE Employee
+ADD CONSTRAINT foreign_key_dno FOREIGN KEY (d_no)
+REFERENCES Department(d_no)
 ON DELETE CASCADE;
-
--- ===========================
--- SELECT TO VERIFY
--- ===========================
 
 SELECT * FROM Department;
 SELECT * FROM Employee;
@@ -105,25 +91,24 @@ SELECT * FROM DLocation;
 SELECT * FROM Project;
 SELECT * FROM WorksOn;
 
--- 1. Find project numbers involving employees whose last name is 'Scott'
--- (No such employee exists; this query returns empty result but no error)
+-- Find project numbers involving employees whose last name is 'Scott'
 SELECT p.p_no, p.p_name, e.name
 FROM Project p
 JOIN Department d ON p.d_no = d.d_no
 JOIN Employee e ON d.d_no = e.d_no
 WHERE e.name LIKE '%Scott';
 
--- 2. 10% raise for employees working on IoT project
+-- 10% raise for employees working on IoT project
 SELECT w.ssn, e.name, e.salary AS old_salary, e.salary * 1.1 AS new_salary
 FROM WorksOn w
 JOIN Employee e ON w.ssn = e.ssn
 WHERE w.p_no = (
     SELECT p_no FROM Project
-    WHERE p_name LIKE '%IoT%'
+    WHERE p_name LIKE '%Next-Gen IoT Platform%'
 );
 
--- 3. Salary stats for 'Corporate Finance' department
-SELECT 
+-- Salary stats for 'Corporate Finance' department
+SELECT
     SUM(salary) AS sal_sum,
     MAX(salary) AS sal_max,
     MIN(salary) AS sal_min,
@@ -132,26 +117,26 @@ FROM Employee e
 JOIN Department d ON e.d_no = d.d_no
 WHERE d.dname = 'Corporate Finance';
 
--- 4. Employees working on ALL projects controlled by department 1
+-- Employees working on ALL projects controlled by department 1
 SELECT e.ssn, e.name, e.d_no
 FROM Employee e
 WHERE NOT EXISTS (
-    SELECT p_no FROM Project p 
+    SELECT p_no FROM Project p
     WHERE p.d_no = 1
     AND p_no NOT IN (
         SELECT w.p_no FROM WorksOn w WHERE w.ssn = e.ssn
     )
 );
 
--- 5. Departments with >1 employees earning >600000
-SELECT d.d_no, COUNT(*) 
+-- Departments with >1 employees earning >600000
+SELECT d.d_no, COUNT(*)
 FROM Department d
 JOIN Employee e ON e.d_no = d.d_no
 WHERE e.salary > 600000
 GROUP BY d.d_no
 HAVING COUNT(*) > 1;
 
--- 6. View: employee details (name, dept name, location)
+-- View: employee details (name, dept name, location)
 CREATE VIEW emp_details AS
 SELECT e.name, d.dname, dl.d_loc
 FROM Employee e
@@ -160,7 +145,7 @@ JOIN DLocation dl ON d.d_no = dl.d_no;
 
 SELECT * FROM emp_details;
 
--- 7. View: project details
+-- View: project details
 CREATE VIEW ProjectDetails AS
 SELECT p.p_name, p.p_loc, d.dname
 FROM Project p
@@ -168,11 +153,7 @@ NATURAL JOIN Department d;
 
 SELECT * FROM ProjectDetails;
 
--- ===========================
--- TRIGGERS (FIXED)
--- ===========================
-
--- Trigger 1: Auto-update manager start date
+-- Trigger 1:Auto-update manager start date
 DELIMITER //
 CREATE TRIGGER UpdateManagerStartDate
 BEFORE INSERT ON Department
@@ -201,4 +182,5 @@ DELIMITER ;
 
 -- Test: THIS WILL ERROR (because employees exist on project 278346)
 delete from Project where p_no = 278346;
+
 
